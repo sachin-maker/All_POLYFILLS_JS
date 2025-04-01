@@ -231,3 +231,60 @@ const total = numbers.myReduce(sumNumbers, 0);
 
 console.log(total);  // 10
 ```
+---  
+
+## Find() =>
+
+### The find() method returns the first element in an array that satisfies a given condition.
+### 👉 If no element matches, it returns undefined.
+## ✅ Syntax:
+```js
+array.find(callback(currentValue, index, array))
+```
+## 🛠 Parameters:
+* #### callback → A function that runs on each element.
+* #### currentValue → The current element being processed.
+* #### index (optional) → The index of the current element.
+* #### array (optional) → The original array.
+
+* #### Returns: The first matching element or undefined if no match is found.
+
+## Example 1: Finding the First Odd Number
+```js
+const numbers = [2, 4, 5, 6, 7, 9];
+
+const firstOdd = numbers.find(num => num % 2 !== 0);
+
+console.log(firstOdd);  // 5
+```
+### Explanation:
+
+* #### find() checks each element until it finds 5, which is the first odd number.
+
+* #### The loop stops immediately after the first match.
+
+## 📌 Polyfill for find() (Custom Implementation)
+
+```js
+// Adding a custom find method to the Array prototype
+Array.prototype.myFind = function(callback) {
+    // Iterate over the array using `this`
+    for (let i = 0; i < this.length; i++) {
+        if (callback(this[i], i, this)) {  
+            return this[i];  // Return the first matching element
+        }
+    }
+    return undefined; // Return undefined if no match found
+};
+
+// Callback function to check if a number is odd
+const isOdd = num => num % 2 !== 0;
+
+// Test array
+const numbers = [2, 4, 5, 6, 7, 9];
+
+// Using the custom myFind function
+const firstOdd = numbers.myFind(isOdd);
+
+console.log(firstOdd);  // 5
+```
