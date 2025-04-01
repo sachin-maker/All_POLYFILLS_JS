@@ -35,18 +35,6 @@
 * #### Implement Promisify, provide promise support to function perform asynchronous tasks
 * #### Implement Promise class
 
-## JS Problems -
-* #### Implement SetInterval Polyfill using setTimeout (DONE)
-* #### Implement debounce
-* #### Implement throttle
-* #### Write a function memoize(memo) that will subsequent calls to a function
-* #### Implement clearAllTimeout
-* #### Implement an Event Emitter class
-* #### Implement deep equal _.isEqual()
-* #### Map class
-* #### Set class
-* #### Event bubbling and Event Capturing
-* #### Event Delegation ,Method chaining
   ---  
 
   ### Before Starting we need to undertand Higher order function
@@ -1259,7 +1247,7 @@ Promise.myAny([t1(), t2(), t3()])
 ```
 ---  
 
- ## Promise.race() 
+ ## 🚀Promise.race() 
 ### It executes all passed promises concurrently and returns the first resolved or rejected promise result.
 
 ## 💡Promise.race() Case :-
