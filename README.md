@@ -687,7 +687,7 @@ console.log(numbers);                // Output: [1, 10, 20, 4, 5]
 
 #  Function PolyFills:-
 
-## Call()=>
+## 🚀Call()=>
 * #### The call method is basically used to invoke the function with different this object.
 * #### In JavaScript, this refers to an object. It depends on how we are calling a particular function.
 * #### In the global scope, this refers to the global object window. Inside function also this refers to the global object window.
@@ -871,6 +871,465 @@ pritFun("India");
 
 ```
 ---  
+
+## 🚀Promises 
+### Promise is an object that is used for handling asynchronous operations in JavaScript.
+
+## 💡Promise has 4 states :-
+* #### 👉 fulfilled: Action related to the promise succeeded (resolve) => result in .then().
+* #### 👉 rejected: Action related to the promise failed (reject) => result in .catch().
+* #### 👉 pending: Promise is still pending i.e. not fulfilled or rejected yet.
+* #### 👉 settled: Promise has fulfilled or rejected => .finally().
+
+## 💡 Promise Chaining :-
+ ### Promise chaining allows you to chain together multiple asynchronous tasks in a specific order where one asynchronous task needs to be performed after the completion of other asynchronous task.
+
+* #### 💡 We can perform Promise Chaining :-
+* #### 👉 by returning a new instance of promise in then()
+* #### 👉 by returning a value in then (), behind the scene it returns a new promise that immediately resolves to the return value.
+
+## 💡 Benefits of Promises :-
+* #### 👉 Improves Code Readability.
+* #### 👉 Better handling of asynchronous operations.
+* #### 👉 Better Error Handling.
+
+https://www.youtube.com/watch?v=PL2D7u64M84
+Watch this video for Promises
+
+## Example of Promise:-
+```js
+const myPromise = new Promise((resolve, reject) => {
+      setTimeout(()=>{
+        const randomNumber = Math.random()
+        if(randomNumber < 0.5){
+             resolve(randomNumber)
+        }else{
+             reject("Operation failed")
+        }
+      },500)
+  })
+  myPromise.then((result)=>{
+      console.log("SUCCESS:",result)
+  }).catch(err=>{
+      console.log("ERROR:",err)
+  })
+```
+
+## 📌Prototype Polyfills of promise:-
+```js
+class MyPromise {
+  constructor(executor) {
+      this.onSuccess = null
+      this.onFailed = null
+      this.isFullfilled = false
+      this.isRejected = false
+      this.isCalled = false
+      this.value
+      executor(this.resolve.bind(this), this.reject.bind(this))
+  }
+
+
+  static resolve(value){
+      return new MyPromise((res,rej)=>{
+          res(value)
+      })
+  }
+  static reject(value){
+      return new MyPromise((res,rej)=>{
+          rej(value)
+      })
+  }
+
+  then(cb) {
+      this.onSuccess = cb
+      if (this.isFullfilled && !this.isCalled) {
+          this.isCalled = true
+          this.onSuccess(this.value)
+      }
+      return this
+  }
+  catch(cb) {
+      this.onFailed = cb
+      if (this.isRejected && !this.isCalled) {
+          this.isCalled = true
+          this.onFailed(this.value)
+      }
+      return this
+  }
+
+
+  resolve(successData){
+      this.isFullfilled = true
+      this.value = successData
+      if (typeof this.onSuccess == "function") {
+          this.onSuccess(successData)
+          this.isCalled = true
+      }
+
+
+  }
+
+
+  reject(errorMessage){
+      this.isRejected = true
+      this.value = errorMessage
+      if (typeof this.onFailed == "function") {
+          this.onFailed(errorMessage)
+          this.isCalled = true
+      }
+  }
+
+
+}
+
+
+const myPromise = new MyPromise((res, rej) => {
+  setTimeout(()=>{
+   res("Good data")
+
+
+  },1000)
+})
+
+myPromise.then((data) => {
+  console.log(data)
+}).catch((err) => {
+  console.log("error", err)
+})
+
+```
+---  
+
+## 🚀Promise.all() 
+### Promise.all() - It executes all passed promises concurrently and improves the performance of the application.
+
+## 💡Promise.all() Cases :-
+* #### 1) If all promises resolve, returns the array of results of all promises resolved.
+* #### 2) If any promise fails, returns the rejected promise error.
+* #### 3) If passed empty [], returns empty [].
+
+https://www.youtube.com/watch?v=qOsqjVJ1p_k
+Watch this video
+
+
+## Example:-
+```js
+const t1 = () =>{
+  return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+          resolve('t1 success');
+      },500);
+  })
+}
+const t2 = () =>{
+  return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+          reject('t2 failed');
+      },500);
+  })
+}
+const t3 = () =>{
+  return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+          resolve('t3 success');
+      },500);
+  })
+}
+
+
+Promise.all([t1(), t2(), t3()])
+.then((res)=>{
+  console.log(res);
+}).catch(err=>{
+  console.log(err);
+})
+```
+
+## 📌Prototype Polyfills Promise.all() :-
+```js
+const t1 = () =>{
+  return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+          resolve('t1 success');
+      },500);
+  })
+}
+const t2 = () =>{
+  return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+          reject('t2 failed');
+      },500);
+  })
+}
+const t3 = () =>{
+  return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+          resolve('t3 success');
+      },500);
+  })
+}
+
+Promise.myPromiseAll = function (promises) {
+  return new Promise((resolve, reject) => {
+      if (!Array.isArray(promises)) {
+          reject(new Error('promises arguments must be an array'));
+          return;
+      }
+      const result = [];
+      let promiseCount = 0;
+      const n = promises.length
+      if (n === 0) {
+          resolve(result);
+          return;
+      }
+      promises.forEach(async (promiseFunc, index) => {
+          try {
+              const res = await promiseFunc;
+              result[index] = res;
+              promiseCount = promiseCount + 1;
+              console.log(promiseCount);
+              if (promiseCount === n)
+                  resolve(result);
+          } catch (err) {
+              reject(err);
+          }
+      })
+  })
+}
+Promise.myPromiseAll([t1(), t3()])
+  .then(result => {
+      console.log(result)
+  }).catch(err => {
+      console.log('Error: ', err);
+  })
+```
+---  
+
+## 🚀Promise.allSettled()
+ ### Promise.allSettled() returns a promise that gets resolved when all passed promises are settled ( either fulfilled or rejected ) and in result it gives an array of objects having status and the value/reason of each promise.
+
+* ####💡 Note :- If passed empty [], returns empty [].
+
+https://www.youtube.com/watch?v=DbEzM_c4k8g
+(watch this video)
+
+
+```js
+const t1 = () =>{
+  return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+          // reject('t1 failed');
+          resolve('t1 success');
+      },500);
+  })
+}
+const t2 = () =>{
+  return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+          reject('t2 failed');
+          // resolve('t2 success');
+      },500);
+  })
+}
+const t3 = () =>{
+  return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+          // reject('t3 failed');
+          resolve('t3 success');
+      },500);
+  });
+}
+Promise.allSettled([t1(), t2(), t3()])
+.then((res)=>{
+  console.log(res);
+}).catch(err=>{
+  console.log(err);
+})
+```
+
+## Output:-
+```js
+[
+  { status: 'fulfilled', value: 't1 success' },
+  { status: 'rejected', reason: 't2 failed' },
+  { status: 'fulfilled', value: 't3 success' }
+]
+```
+## 📌Prototype Polyfills of Promise.allSettled() :-
+```js
+Promise.allSettledPolyfill = function(arr){
+  console.log(arr);
+  const result = arr.map((promise)=>{
+      return Promise.resolve(promise).then((value)=>{
+          return {
+              status: 'fulfilled',
+              value: value
+          }
+      }).catch((reason)=>{
+          return {
+              status: 'rejected',
+              reason: reason
+          }
+      })
+  });
+  return Promise.all(result);
+}
+
+
+Promise.allSettledPolyfill([t1(),t2(),t3()])
+  .then(res=>{
+      console.log(res);
+  })
+```
+---  
+
+## 🚀Promise.any()
+### Promise.any() - It executes all passed promises concurrently and returns the first resolved promise result.
+
+##💡Promise.any() Cases :-
+* #### 1) If no promise passes, returns the AggregateError "All promises were rejected".
+* #### 2) If passed empty [], returns error.
+
+https://www.youtube.com/watch?v=yEEW78qg-48
+Watch this video
+
+```js
+const t1 = () =>{
+  return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+          // reject('t1 failed');
+          resolve('t1 success');
+      },1500);
+  })
+}
+const t2 = () =>{
+  return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+          // reject('t2 failed');
+          resolve('t2 success');
+      },1000);
+  })
+}
+const t3 = () =>{
+  return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+          // reject('t3 failed');
+          resolve('t3 success');
+      },2500);
+  });
+}
+
+
+Promise.any([t1(), t2(), t3()])
+  .then((result)=>{
+      console.log(result)
+  }).catch((err)=>{
+      console.log(err);
+  })
+```
+
+### Output:-
+```js
+t2 success
+```
+
+## 📌Prototype Polyfills of Promise.any():-
+```js
+Promise.myAny = function(arr){
+  return new Promise((resolve,reject)=>{
+      let count = 0;
+      arr.forEach((promise)=>{
+          promise.then((result)=>{
+              resolve(result);
+          }).catch((err)=>{
+              count++;
+              if(count === arr.length){
+                  reject(new Error('AggregateError: All promises were rejected'))
+              }
+          })
+      })
+  })
+}
+Promise.myAny([t1(), t2(), t3()])
+  .then((result)=>{
+      console.log(result)
+  }).catch((err)=>{
+      console.log(err);
+  })
+```
+---  
+
+ ## Promise.race() 
+### It executes all passed promises concurrently and returns the first resolved or rejected promise result.
+
+## 💡Promise.race() Case :-
+* #### 1) If passed empty [], forever pending.
+```js
+const t1 = () =>{
+  return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+          // reject('t1 failed');
+          resolve('t1 success');
+      },500);
+  })
+}
+const t2 = () =>{
+  return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+           reject('t2 failed');
+        //   resolve('t2 success');
+      },300);
+  })
+}
+const t3 = () =>{
+  return new Promise((resolve,reject)=>{
+      setTimeout(()=>{
+          // reject('t3 failed');
+          resolve('t3 success');
+      },1000);
+  });
+}
+
+
+Promise.race([t1(), t2(), t3()])
+    .then((result)=>{
+        console.log(result)
+    }).catch((err)=>{
+        console.log('err ',err);
+    })
+
+```
+
+## Output:-
+```js
+err  t2 failed
+```
+
+## 📌Prototype Polyfills of Promise.race() :-
+```js
+Promise.myRace = function(arr){
+  return new Promise((resolve,reject)=>{
+      arr.forEach((promise)=>{
+          Promise.resolve(promise).then((result)=>{
+              return resolve(result);
+          }).catch((err)=>{
+              return reject(err);
+          })
+      })
+  })
+}
+Promise.myRace([t1(), t2(), t3()])
+  .then((result)=>{
+      console.log(result)
+  }).catch((err)=>{
+      console.log('err ',err);
+  })
+```
+---  
+
+
+
+
 
 
 
