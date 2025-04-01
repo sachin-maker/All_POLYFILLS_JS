@@ -1605,7 +1605,118 @@ console.log(arr3.flatMap((element) => element));
 
 * #### Use flatMap() when you want to map the array and flatten it in a single operation.
 
+  ---
+  
 
+## 🚀Write custom function for Array.flat() using both recursive and iterative
+
+## 📌Recursive Approach (No Depth)
+```js
+const flattenRecursive = (arr) => {
+  if (!Array.isArray(arr)) {
+    throw new Error("Input must be an array");
+  }
+  const result = [];
+  for (const ele of arr) {
+    if (Array.isArray(ele)) {
+      result.push(...flattenRecursive(ele)); // Recursively flatten sub-arrays
+    } else {
+      result.push(ele); // Add non-array elements directly
+    }
+  }
+  return result;
+};
+
+// Test case for Recursive Approach
+const resultRecursive = flattenRecursive(
+  [[[[0]], [1]], [[[2], [3]]], [[4], [5]]]
+);
+console.log(resultRecursive, "Recursive Result");
+// Expected Output: [0, 1, 2, 3, 4, 5]
+```
+## 📌Iterative Approach (No Depth)
+```js
+const flattenIterative = (arr) => {
+  if (!Array.isArray(arr)) {
+    throw new Error("Input must be an array");
+  }
+  const stack = [...arr];
+  const result = [];
+  while (stack.length) {
+    const ele = stack.pop();
+    if (Array.isArray(ele)) {
+      stack.push(...ele); // Push elements of the sub-array to the stack
+    } else {
+      result.push(ele); // Add non-array elements directly
+    }
+  }
+  return result.reverse(); // Reverse the result to maintain order
+};
+
+// Test case for Iterative Approach
+const resultIterative = flattenIterative([[[[0]], [1]], [[[2], [3]]], [[4], [5]]]);
+console.log(resultIterative, "Iterative Result");
+// Expected Output: [0, 1, 2, 3, 4, 5]
+```
+## 📌Recursive Approach with Depth
+
+```js
+const flattenRecursiveWithDepth = (arr, depth) => {
+  if (!Array.isArray(arr)) {
+    throw new TypeError("The first argument must be an array.");
+  }
+  let result = [];
+  if (depth === 0) return arr; // Return the array as is when depth is 0
+  for (let ele of arr) {
+    if (Array.isArray(ele) && depth > 0) {
+      result.push(...flattenRecursiveWithDepth(ele, depth - 1)); // Flatten sub-arrays up to the given depth
+    } else {
+      result.push(ele); // Add non-array elements directly
+    }
+  }
+  return result;
+};
+
+// Test case for Recursive Approach with Depth
+const result = flattenRecursiveWithDepth(
+  [[[[[0]]], [1]], [[[2], [3]]], [[4], [5]]], 1
+);
+console.log(result);
+// Expected Output: [ [ [ 0 ] ], 1, [ [ 2 ], [ 3 ] ], 4, 5 ]
+```
+## 📌Iterative Approach with Depth
+```js
+const flattenIterativeWithDepth = (arr, depth) => {
+  if (!Array.isArray(arr)) {
+    throw new TypeError("The first argument must be an array.");
+  }
+  let result = [];
+  let stack = [...arr]; // Start with the original array
+  let currentDepth = 0;
+
+  // Iterate while there are elements in the stack and we haven't reached the max depth
+  while (stack.length) {
+    const ele = stack.pop();
+
+    // If depth is greater than 0 and the element is an array, we need to flatten further
+    if (Array.isArray(ele) && currentDepth < depth) {
+      stack.push(...ele); // Push the elements of the array onto the stack
+      currentDepth++; // Increment the depth level
+    } else {
+      result.push(ele); // Add non-array elements or if we've reached the depth to the result
+    }
+  }
+
+  return result.reverse(); // Reverse to maintain original order
+};
+
+// Test case for Iterative Approach with Depth
+const resultIterativeWithDepth = flattenIterativeWithDepth(
+  [[[[[0]]], [1]], [[[2], [3]]], [[4], [5]]], 1
+);
+console.log(resultIterativeWithDepth);
+// Expected Output: [ [ [ 0 ] ], 1, [ [ 2 ], [ 3 ] ], 4, 5 ]
+```
 
 
 
