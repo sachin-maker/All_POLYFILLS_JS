@@ -288,3 +288,140 @@ const firstOdd = numbers.myFind(isOdd);
 
 console.log(firstOdd);  // 5
 ```
+---  
+
+## findIndex() =>
+### The findIndex() method returns the index of the first element in an array that satisfies a given condition.
+### 👉 If no element matches, it returns -1 instead of undefined (like find() does).
+## ✅ Syntax:
+```js
+array.findIndex(callback(currentValue, index, array))
+```
+## 🛠 Parameters:
+* #### callback → A function that runs on each element.
+* #### currentValue → The current element being processed.
+
+* #### index (optional) → The index of the current element.
+
+* #### array (optional) → The original array.
+
+* #### Returns: The index of the first matching element or -1 if no match is found.
+## Example 1: Finding the Index of a Specific Number
+
+```js
+const numbers = [1, 2, 5, 3, 4, 5, 6];
+
+const firstIndex = numbers.findIndex(num => num === 5);
+
+console.log(firstIndex);  // 2
+```
+### Explanation:
+
+* #### The first occurrence of 5 is at index 2, so findIndex() returns 2.
+
+* #### The search stops immediately after the first match.
+## 📌 Polyfill for findIndex() (Custom Implementation)
+```js
+// Adding a custom findIndex method to the Array prototype
+Array.prototype.myFindIndex = function(callback) {
+    // Iterate over the array using `this`
+    for (let i = 0; i < this.length; i++) {
+        if (callback(this[i], i, this)) {  
+            return i;  // Return the first matching index
+        }
+    }
+    return -1; // Return -1 if no match is found
+};
+
+// Callback function to check if a number equals 5
+const isFive = num => num === 5;
+
+// Test array
+const numbers = [1, 2, 5, 3, 4, 5, 6];
+
+// Using the custom myFindIndex function
+const firstIndex = numbers.myFindIndex(isFive);
+
+console.log(firstIndex);  // 2
+```
+---  
+## forEach() =>
+The forEach() method is a higher-order function that iterates through each element of an array and executes a callback function once for each element.  
+
+✅ Syntax:  
+
+```js
+array.forEach(callback(currentValue, index, array))
+```
+🛠 Parameters:
+* #### callback: A function that is called for each element in the array.
+
+* #### currentValue: The current element being processed.
+
+* #### index (optional): The index of the current element.
+
+* #### array (optional): The original array.
+
+* #### Returns: undefined (no new array is created).
+
+ ## Example - Displaying Todos
+```js
+const todos = [
+  { id: 1, todo: "Morning Walk" },
+  { id: 2, todo: "Go to Office" },
+  { id: 3, todo: "Watch Netflix" },
+  { id: 4, todo: "Go to Gym" },
+  { id: 5, todo: "Go for Movie" },
+];
+
+const display = ({ todo }, index, array) => {
+  console.log(todo);
+};
+
+todos.forEach(display);
+```
+
+### Output:
+
+```js
+Morning Walk
+Go to Office
+Watch Netflix
+Go to Gym
+Go for Movie
+```
+## Key Insights:
+* #### forEach() executes the callback for each element in the array.
+
+* #### Does NOT mutate the original array.
+
+* ### Always returns undefined and does NOT create a new array (unlike map()).
+
+## forEach() vs map():
+* #### map() returns a new array, whereas forEach() always returns undefined.
+
+* #### When to use map()?: Use it when you need to transform an array and return a new one (e.g., editing a todo list).
+
+* #### When to use forEach()?: Use it when you simply want to loop through each element and perform an action without needing a new array (e.g., displaying a list of todos).
+
+## 📌 Polyfill for forEach() (Custom Implementation)
+```js
+// Adding a custom forEach method to the Array prototype
+Array.prototype.customForEach = function(callback) {
+  // Iterate over the array using `this` (refers to the calling array)
+  for (let i = 0; i < this.length; i++) {
+    // Apply the callback to each element
+    callback(this[i], i, this);
+  }
+};
+
+// Callback function to display todo items
+const display = ({ todo }, index, array) => {
+  console.log(todo);
+};
+
+// Using the custom forEach function
+todos.customForEach(display);
+```
+
+
