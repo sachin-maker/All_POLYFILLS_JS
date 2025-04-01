@@ -1327,6 +1327,160 @@ Promise.myRace([t1(), t2(), t3()])
 ```
 ---  
 
+## 🚀Debouncing:-
+#### Debouncing is a technique used to improve the performance of applications by reducing the rate of functions call
+
+#### 👉 If the function is getting called continuously, We can delay the function call for some time with the help of debouncing to optimize the performance of applications
+
+## 💡use cases :-
+* #### 👉 For mostly we used Search Box
+* #### 👉 Continuous button click event function call can be delay.
+* #### 👉 Resize of window event function call can be delay.
+
+## 💡Let's take an example search input value-
+https://www.youtube.com/watch?v=pkvXAM3uIZ8  (watch this video for better understanding)
+
+
+#### In a search bar, you can use debouncing to delay sending an API request until the user has finished typing or paused for a moment. 
+#### This prevents excessive requests for each keystroke.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Document</title>
+  </head>
+
+  <body>
+    <h3>Debouncing Example</h3>
+    <input type="text" id="search-input" placeholder="Search..." />
+    <script src="debounce.js"></script>
+  </body>
+</html>
+```
+
+## debounce.js
+```js
+// Debounce function to delay the execution of the function
+const debounce = (func, delay) => {
+  let decouncing;
+  return function () {
+    const args = arguments;
+    const ctx = this;
+    clearTimeout(decouncing); // Clear the previous timeout
+    decouncing = setTimeout(() => func.apply(ctx, args), delay); // Set the new timeout
+  };
+};
+
+// Function to call the API (simulated)
+const callAPI = function (term) {
+  console.log("Calling API for", term);
+};
+
+// Create the debounced version of the API call
+const debouncedAPI = debounce(callAPI, 500);
+
+// Listen to input changes and trigger the debounced API call
+document.getElementById("search-input").addEventListener("input", function (e) {
+  debouncedAPI(e.target.value);
+});
+
+```
+### 📝 Explanation:
+`debounce(func, delay):`
+
+* #### This function accepts a callback function (func) and a delay (in milliseconds).
+
+* #### It ensures that func is only executed after the user stops performing the action (e.g., typing in the search bar) for delay milliseconds.
+
+`callAPI(term):`
+
+* #### This is a function that simulates calling an API based on the search term.
+
+`Event Listener:`
+
+* #### The input event is added to the search input field. As the user types, the debouncedAPI function is triggered, but due to debouncing, the actual callAPI function will only be called after the user stops typing for 500ms.
+
+---  
+
+## 🚀Throttling
+### Throttling is a technique used to improve the performance of applications by limiting the rate of function calls
+* #### 👉 If the function is getting called continuously, We can execute the function once in the given time interval with the help of Throttling to optimize the performance of applications
+### 💡Debouncing vs Throttling-
+* #### In Debouncing, the attached function will be executed only after the given time once the user stops calling the event.
+* #### While in Throttling, the attached function will be executed only once in a given time interval.
+* #### 💡Which technique to use in a particular scenario?
+* #### For Search bar, It’s recommended to use Debouncing technique as it will give better user experience
+* #### For Shooting game, Browser resizing and Scrolling feeds, It’s recommended to use Throttling technique.
+
+```html
+HTML 
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Document</title>
+  </head>
+
+
+  <body>
+    <h3>Throttling example</h3>
+    <button id="myButton">shoot enemy</button>
+
+
+    <script src="throttling.js"></script>
+  </body>
+</html>
+```
+## throttling.js
+```js
+// Throttling function to limit the frequency of a function call
+const throttle = (func, limit) => {
+    let isThrottling;
+    return function () {
+        const args = arguments;
+        const ctx = this;
+        if (!isThrottling) {
+            func.apply(ctx, args);  // Execute the function
+            isThrottling = true;
+            setTimeout(() => isThrottling = false, limit);  // Reset after the time limit
+        }
+    };
+};
+
+// Function to simulate shooting (e.g., in a game)
+function shoot() {
+    console.log("Function called");
+}
+
+// Create a throttled version of the shoot function with a limit of 500ms
+const throttledShoot = throttle(shoot, 500);
+
+// Listen for button click event and trigger throttledShoot
+document.getElementById("myButton").addEventListener("click", () => {
+    throttledShoot();
+});
+
+
+```
+
+## 📝 Explanation:
+`throttle(func, limit):`
+
+* #### This function accepts a callback function (func) and a limit (in milliseconds).
+
+* #### It ensures that func is executed only once every limit milliseconds, even if the event is triggered multiple times during that interval.
+
+`shoot():`
+
+* #### This is a function that simulates shooting in a game or any other scenario that requires repeated actions.
+
+`Event Listener:`
+
+* #### The throttled version of the shoot() function is triggered every time the button is clicked, but due to throttling, it can only be executed once every 500ms.
+
+---  
+
 
 
 
