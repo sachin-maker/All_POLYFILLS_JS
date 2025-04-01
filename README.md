@@ -123,13 +123,9 @@ array.filter(callback(currentValue, index, array))
 ```
 ### 🛠 Parameters:
 * #### callback → Function that runs for each element.
-
 * #### currentValue → The current element being processed.
-
 * #### index (optional) → The index of the current element.
-
 * #### array (optional) → The original array.
-
 * #### Returns: A new array with elements that satisfy the condition.
 
 ```js
@@ -179,4 +175,59 @@ console.log(filteredArr);  // [2, 4]
 * #### ✔ Custom Polyfills can be created using Array.prototype.
   ---
 
-  
+## Reduce ()=>
+#### The reduce() method is used to accumulate values from an array into a single output value by applying a function to each element.
+
+#### 👉 Unlike map() and filter(), which return arrays, reduce() returns a single value (e.g., sum, product, concatenation, or even an object).
+## ✅ Syntax:
+```js
+array.reduce(callback(accumulator, currentValue, index, array), initialValue)
+```
+## 🛠 Parameters:
+* #### callback → A function that runs on each element.
+* #### accumulator → The accumulated result from previous iterations.
+* #### currentValue → The current element being processed.
+* #### index (optional) → The index of the current element.
+* #### array (optional) → The original array.
+* #### initialValue (optional but recommended) → The starting value for accumulator.
+
+* #### Returns: A single value (number, string, object, etc.).
+## Example Sum of Numbers
+```js
+const numbers = [1, 2, 3, 4];
+
+const sum = numbers.reduce((accumulator, num) => accumulator + num, 0);
+
+console.log(sum);  // 10
+```
+### Explanation:
+* #### reduce() starts with 0 (initialValue).
+* #### It adds each element to accumulator
+
+## 📌 Polyfill for reduce() (Custom Implementation)
+```js
+// Adding a custom reduce method to the Array prototype
+Array.prototype.myReduce = function(callback, initialValue) {
+    let accumulator = initialValue !== undefined ? initialValue : this[0]; 
+    let startIndex = initialValue !== undefined ? 0 : 1; 
+
+    // Iterate over the array
+    for (let i = startIndex; i < this.length; i++) {
+        accumulator = callback(accumulator, this[i], i, this);
+    }
+
+    // Return the final accumulated result
+    return accumulator;
+};
+
+// Callback function to sum numbers
+const sumNumbers = (acc, curr) => acc + curr;
+
+// Test array
+const numbers = [1, 2, 3, 4];
+
+// Using the custom myReduce function
+const total = numbers.myReduce(sumNumbers, 0);
+
+console.log(total);  // 10
+```
