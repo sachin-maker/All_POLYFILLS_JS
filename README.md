@@ -58,7 +58,7 @@
 #### We know that JavaScript provides us with some inbuilt higher order functions like map(), filter(), reduce() and so on.
 
 
-## Map()  =>
+## 🚀Map()  =>
 
 * ### The map() method is a built-in JavaScript function that creates a new array by applying a callback function to each element of an existing array.
 
@@ -112,7 +112,7 @@ console.log(mappedArr);  // [1, 4, 9, 16]
 --- 
 
 
-## filter()  =>
+## 🚀filter()  =>
 The `filter()` method is used to create a new array containing only elements that satisfy a given condition.
 
 👉 Unlike `map()`, which transforms elements, `filter()` only includes elements that return true in the callback function.
@@ -175,7 +175,7 @@ console.log(filteredArr);  // [2, 4]
 * #### ✔ Custom Polyfills can be created using Array.prototype.
   ---
 
-## Reduce ()=>
+## 🚀Reduce ()=>
 #### The reduce() method is used to accumulate values from an array into a single output value by applying a function to each element.
 
 #### 👉 Unlike map() and filter(), which return arrays, reduce() returns a single value (e.g., sum, product, concatenation, or even an object).
@@ -233,7 +233,7 @@ console.log(total);  // 10
 ```
 ---  
 
-## Find() =>
+## 🚀Find() =>
 
 ### The find() method returns the first element in an array that satisfies a given condition.
 ### 👉 If no element matches, it returns undefined.
@@ -290,7 +290,7 @@ console.log(firstOdd);  // 5
 ```
 ---  
 
-## findIndex() =>
+## 🚀findIndex() =>
 ### The findIndex() method returns the index of the first element in an array that satisfies a given condition.
 ### 👉 If no element matches, it returns -1 instead of undefined (like find() does).
 ## ✅ Syntax:
@@ -345,7 +345,7 @@ const firstIndex = numbers.myFindIndex(isFive);
 console.log(firstIndex);  // 2
 ```
 ---  
-## forEach() =>
+## 🚀forEach() =>
 The forEach() method is a higher-order function that iterates through each element of an array and executes a callback function once for each element.  
 
 ✅ Syntax:  
@@ -423,5 +423,457 @@ const display = ({ todo }, index, array) => {
 // Using the custom forEach function
 todos.customForEach(display);
 ```
+---  
+
+## 🚀For-of():-
+
+* #### Purpose: Iterates over iterable objects, such as arrays, strings, maps, sets, and more.
+* #### Iterates Over: The values of the iterable object.
+* #### Best Used For: Iterating through the contents (values) of arrays, strings, or other iterable objects.
+```js
+const arr = [10, 20, 30];
+
+
+for (const value of arr) {
+  console.log(value); // Output: 10, 20, 30
+}
+
+const str = "hello";
+for (const char of str) {
+  console.log(char); // Output: h, e, l, l, o
+}
+```
+---  
+
+## 🚀For-in():-
+* #### Purpose: Iterates over the enumerable properties of an object.
+* #### Iterates Over: The keys (property names) of an object or array indices.
+* #### Best Used For: Iterating through object properties. It can also work with arrays but is not recommended because it iterates over all enumerable properties, not just array elements.
+```js
+const obj = { a: 1, b: 2, c: 3 };
+
+
+for (const key in obj) {
+  console.log(key); // Output: a, b, c
+}
+
+
+const arr = [10, 20, 30];
+for (const index in arr) {
+  console.log(index); // Output: 0, 1, 2
+  console.log(arr[index]); // Output: 10, 20, 30
+}
+```
+---  
+
+## 🚀Some()->
+
+### The some() method tests whether at least one element in the array passes the test implemented by the provided callback function.
+
+
+#### Returns:
+* #### true if any element satisfies the condition.
+* #### false if none of the elements satisfy the condition.
+
+
+* #### 💡Note - It does not mutate the original array, and returns a Boolean value.
+* #### 👉 One Level Up :- We can create our own custom some( Polyfill of some ), Check out the code below.👇
+
+## 💡 Example - Check if a Number is Greater than 5
+```js
+const numbers = [1, 2, 3, 4, 5, 6];
+
+const isGreaterThan5 = (value, index, array) => {
+  return value > 5;
+};
+
+const result = numbers.some(isGreaterThan5);
+console.log("result", result);  // true
+```
+## 📌 Polyfill for some() (Custom Implementation)
+```js
+// Adding a custom some method to the Array prototype
+Array.prototype.customSome = function(callback) {
+  // Iterate over the array using `this` (refers to the calling array)
+  for (let i = 0; i < this.length; i++) {
+    // If callback returns true for any element, return true
+    if (callback(this[i], i, this)) {
+      return true;
+    }
+  }
+  return false;  // Return false if no element satisfies the condition
+};
+
+// Callback function to check if a number is greater than 5
+const isGreaterThan5 = (value, index, array) => {
+  return value > 5;
+};
+
+
+// Using the custom some function
+const resultCustom = numbers.customSome(isGreaterThan5);
+console.log("resultCustom", resultCustom);  // true
+```
+---  
+
+## 🚀every() =>
+
+### The every() method tests whether all elements in the array pass the test implemented by the provided callback function. 
+### It returns true if every element satisfies the condition, otherwise, it returns false.
+
+✅ Syntax:
+```js
+array.every(callback(currentValue, index, array))
+```
+## 🛠 Parameters:
+* #### callback: A function that tests each element.
+
+* #### currentValue: The current element being processed.
+
+* #### index (optional): The index of the current element.
+
+* #### array (optional): The original array.
+
+* #### Returns: true if all elements satisfy the condition, otherwise false.
+
+## 💡 Example - Check if All Numbers are Less Than 10
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+// Check if all numbers are less than 10
+const allLessThanTen = numbers.every(num => num < 10);
+
+console.log(allLessThanTen);  // Output: true
+```
+
+## Key Insights:
+* #### every() returns true if every element in the array satisfies the provided condition.
+
+* #### It stops iterating as soon as it finds an element that fails the condition (short-circuiting behavior).
+
+* #### It does NOT modify the original array.
+
+## 💡 Use Case:
+* #### Validating an entire list: For example, checking if all items in an array meet a certain condition, such as whether all numbers are within a valid range.
+
+## 📌 Polyfill for every() (Custom Implementation)
+```js
+// Adding a custom every method to the Array prototype
+Array.prototype.customEvery = function(callback) {
+  // Iterate over the array using `this` (refers to the calling array)
+  for (let i = 0; i < this.length; i++) {
+    // If callback returns false for any element, return false
+    if (!callback(this[i], i, this)) {
+      return false;
+    }
+  }
+  return true;  // Return true if all elements satisfy the condition
+};
+
+// Callback function to check if a number is less than 10
+const isLessThanTen = num => num < 10;
+
+// Using the custom every function
+const allLessThanTenCustom = numbers.customEvery(isLessThanTen);
+
+console.log(allLessThanTenCustom);  // Output: true
+```
+---  
+## 🚀Slice():-
+* #### Purpose: Creates a shallow copy of a portion of an array into a new array without modifying the original array.
+### Arguments:
+* #### start (optional): The index at which to begin the extraction (inclusive).
+* #### end (optional): The index at which to stop the extraction (exclusive).
+* #### Returns: A new array containing the extracted elements.
+* #### Does not modify the original array.
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+
+// Extract elements from index 1 to 3 (exclusive)
+const slicedArray = numbers.slice(1, 3);
+
+
+console.log(slicedArray); // Output: [2, 3]
+console.log(numbers);     // Output: [1, 2, 3, 4, 5] (original array unchanged)
+```
+## 📌 Polyfill for slice() (Custom Implementation)
+```js
+// Adding a custom slice method to the Array prototype
+Array.prototype.customSlice = function(start, end) {
+  // If end is undefined, set it to the length of the array
+  end = end !== undefined ? end : this.length;
+
+  // Adjust negative indices to count from the end
+  if (start < 0) start = this.length + start;
+  if (end < 0) end = this.length + end;
+
+  // Create a new array for the sliced elements
+  let slicedArray = [];
+  
+  // Iterate over the array and push elements into the new array
+  for (let i = start; i < end; i++) {
+    slicedArray.push(this[i]);
+  }
+
+  return slicedArray;
+};
+
+// Using the custom slice function
+const slicedArrayCustom = numbers.customSlice(1, 3);
+
+console.log(slicedArrayCustom);  // Output: [2, 3]
+```
+---  
+
+## 🚀Splice():-
+### Purpose: Modifies an array by adding, removing, or replacing elements.
+### Arguments:
+* #### start: The index at which to begin changing the array.
+* #### deleteCount (optional): The number of elements to remove.
+* #### items (optional): Elements to add to the array at the start index.
+* #### Returns: An array of the removed elements.
+* #### Modifies the original array.
+ ```js
+const numbers = [1, 2, 3, 4, 5];
+
+
+// Remove 2 elements starting from index 1, and add "10" and "20" in their place
+const removedElements = numbers.splice(1, 2, 10, 20);
+
+
+console.log(removedElements); // Output: [2, 3] (removed elements)
+console.log(numbers);         // Output: [1, 10, 20, 4, 5] (modified array)
+
+```
+## 📌 Polyfill for splice() (Custom Implementation)
+```js
+// Adding a custom splice method to the Array prototype
+Array.prototype.customSplice = function(start, deleteCount, ...items) {
+  let removedElements = [];  // Array to store removed elements
+  let newArray = [...this];  // Make a copy of the array to modify
+
+  // If deleteCount is not provided, remove all elements from start to the end of the array
+  deleteCount = deleteCount || newArray.length - start;
+
+  // Store removed elements
+  removedElements = newArray.slice(start, start + deleteCount);
+
+  // Remove the elements from the array
+  newArray.splice(start, deleteCount);
+
+  // Insert new elements at the start index
+  if (items.length > 0) {
+    newArray.splice(start, 0, ...items);
+  }
+
+  // Return the array of removed elements
+  return removedElements;
+};
+
+// Using the custom splice function
+const numbers = [1, 2, 3, 4, 5];
+const removedElementsCustom = numbers.customSplice(1, 2, 10, 20);
+
+console.log(removedElementsCustom);  // Output: [2, 3]
+console.log(numbers);                // Output: [1, 10, 20, 4, 5]
+```
+---  
+
+## So this is All about Array methods and thier polyfills 
+
+--- 
+
+#  Function PolyFills:-
+
+## Call()=>
+* #### The call method is basically used to invoke the function with different this object.
+* #### In JavaScript, this refers to an object. It depends on how we are calling a particular function.
+* #### In the global scope, this refers to the global object window. Inside function also this refers to the global object window.
+  
+* #### In strict mode, when we use any function then this refers to undefined. In functions like call, this could refer to a different object. 
+* #### With the help of the call method, we can invoke a particular function with different objects.
+* #### Parameters: It takes two parameters:
+* #### ObjectInstance: It is an object which we want to use explicitly
+* #### Arguments: It is arguments that we want to pass to the calling function
+* #### The main purpose of the call() method in js is to change the context of (this value) of a function when its invoked.
+* #### It allows you to specify the object on which function is to be invoked, rather than relying on the usual calling context,
+* #### This is useful in situations where you want reuse function with different objects or when you need to explicitly set context for a function
+  
+* #### Note:It accepts the arguments individually
+
+```js
+let p1 = {
+  firstName: 'John',
+  lastName: 'Smith'
+};
+let p2 = {
+  firstName: 'Ann',
+  lastName: 'Brown'
+};
+function sayWelcome(greeting) {
+  console.log(greeting + ' ' + this.firstName + ' ' + this.lastName);
+}
+sayWelcome.call(p1, 'Welcome'); // Welcome John Smith
+sayWelcome.call(p2, 'Welcome'); // Welcome Ann Brown
+```
+
+
+## 📌Prototype Polyfills of Call() :-
+
+```js
+let person = {
+firstname: "Kirtesh",
+lastname: "bansal"
+}
+let printName = function (country) {
+console.log(this.firstname + " " + this.lastname + " from "
++ country);
+}
+//...args=> rest parameter means we can add multiple arguments
+Function.prototype.mycall = function(obj={},...args){
+// console.log(this); //this keyword is refers to the pritName function
+if(typeof this !=="function"){
+throw new Error("not callable")
+}
+obj.fn=this;
+obj.fn(...args)
+}
+/*
+Note: Applying mycall method to printName function so this
+will be equal to printName inside mycall function as
+printName is on the left side of the '.'
+*/
+printName.mycall(person, "India");
+// Output:
+// "Kirtesh bansal from India"
+```
+--- 
+
+## 🚀Apply()=>
+
+### The apply() method calls the function with a given this value and allows passing  in arguments as an array (or an array-like object).
+```js
+let p1 = {
+  firstName: 'John',
+  lastName: 'Smith'
+};
+let p2 = {
+  firstName: 'Ann',
+  lastName: 'Brown'
+};
+function sayWelcome(greeting) {
+  console.log(greeting + ' ' + this.firstName + ' ' + this.lastName);
+}
+sayWelcome.apply(p1, ['Welcome'] ); // Welcome John Smith
+sayWelcome.apply(p2, ['Welcome'] ); // Welcome Ann Brown
+```
+
+* #### it is useful when we are working with function that accepts a variable number of arguments Such As mathmatical function.
+* #### let say you have array of numbers and you want to find the maximum number in array then we can use apply method
+
+```js
+let arr=[22,33,44,11,13,45,75,23,43,54];
+let maxNumber=Math.max.apply(null,arr);
+console.log(maxNumber);
+```
+### Note:It aceepts the arguments as an array.
+
+ ## 📌Prototype Polyfills of Apply():-
+```js
+// Step 1: Define an object
+let p1 = {
+  firstName: "sachin", // Fixed typo from 'fistName' to 'firstName'
+  lastName: "deshpande"
+};
+
+
+// Step 2: Define a function
+let printName = function (country) {
+  console.log(this.firstName + " " + this.lastName + " from " + country);
+};
+
+
+// Step 3: Custom implementation of 'apply'
+Function.prototype.myApply = function (obj = {}, args = []) {
+  // Check if 'this' is a function
+  if (typeof this !== 'function') {
+      throw new Error("Function.prototype.myApply - called on non-callable object");
+  }
+  // Check if args is an array
+  if (!Array.isArray(args)) {
+      throw new Error("Function.prototype.myApply - second argument must be an array");
+  }
+  // Assign the function to the provided object's property
+  obj.fn = this;
+  // Invoke the function with the given arguments
+  obj.fn(...args);
+  // Clean up: remove the added property to avoid side effects
+  delete obj.fn;
+};
+
+
+// Step 4: Use the custom myApply method
+printName.myApply(p1, ["India"]);
+```
+---  
+
+## 🚀Bind()=>
+
+### The bind() method returns a new function and allows passing in a this array and any number of arguments.
+
+```js
+let p1 = {
+  firstName: 'John',
+  lastName: 'Smith'
+};
+
+
+let p2 = {
+  firstName: 'Ann',
+  lastName: 'Brown'
+};
+function sayWelcome() {
+  console.log('Welcome ' + this.firstName + ' ' + this.lastName);
+}
+let sayWelcomeJohn = sayWelcome.bind(p1);
+let sayWelcomeAnn = sayWelcome.bind(p2);
+sayWelcomeJohn(); // Welcome John Smith
+sayWelcomeAnn(); // Welcome Ann Brown
+
+```
+
+## 📌Prototype Polyfills of Bind():-
+```js
+let person = {
+firstname: "Kirtesh",
+lastname: "bansal"
+}
+let printName = function (country) {
+console.log(this.firstname + " " + this.lastname + " from "
++ country);
+}
+//...args=> rest parameter means we can add multiple arguments
+Function.prototype.mybind = function(obj={},...args1){
+if(typeof this !=="function"){
+throw new Error("not callable")
+}
+obj.fn=this;
+return function(...args2){
+obj.fn(...args1,...args2)
+}
+}
+let pritFun=printName.mybind(person);
+pritFun("India");
+// Output:
+// "Kirtesh bansal from India"
+
+```
+---  
+
+
+
+
 
 
