@@ -1315,3 +1315,63 @@ Promise.myRace([t1(), t2(), t3()])
 ```
 ---  
 
+## 🚀 Write a polyfill for clearAllTimeout that tracks and clears all timeouts set using setTimeout.
+```js
+(function () {
+  // Encapsulate in IIFE
+  const timeoutIds = new Set();
+
+  // Save original functions
+  const originalSetTimeout = globalThis.setTimeout;
+  const originalClearTimeout = globalThis.clearTimeout;
+
+  // Override setTimeout
+  globalThis.setTimeout = function (callback, delay, ...args) {
+    const id = originalSetTimeout((...callbackArgs) => {
+      timeoutIds.delete(id);
+      callback(...callbackArgs);
+    }, delay, ...args);
+    timeoutIds.add(id);
+    return id;
+  };
+
+  // Override clearTimeout
+  globalThis.clearTimeout = function (id) {
+    timeoutIds.delete(id);
+    originalClearTimeout(id);
+  };
+
+  // Clear all timeouts
+  globalThis.clearAllTimeout = function () {
+    for (const id of timeoutIds) {
+      originalClearTimeout(id);
+    }
+    timeoutIds.clear();
+  };
+})();
+
+// Test
+const timeout1 = setTimeout(() => console.log("Timeout 1"), 10000);
+const timeout2 = setTimeout(() => console.log("Timeout 2"), 3000);
+const timeout3 = setTimeout(() => console.log("Timeout 3"), 4000);
+
+setTimeout(() => {
+  console.log("Clearing all timeouts...");
+  clearAllTimeout();
+}, 2000);
+```
+
+#### Why globalThis?
+* #### globalThis is the standard global object available across all JavaScript environments:
+
+* #### window in browsers
+
+* #### global in Node.js
+
+* #### Unified as globalThis since ES2020
+
+---  
+
+
+
+
