@@ -166,6 +166,8 @@ console.log(filteredArr);  // [2, 4]
 ## 🚀Reduce ()=>
 #### The reduce() method is used to accumulate values from an array into a single output value by applying a function to each element.
 
+#### it's a method is used to process an array and reduce it to a single value by applying a call back function to each element in sequence. 
+
 #### 👉 Unlike map() and filter(), which return arrays, reduce() returns a single value (e.g., sum, product, concatenation, or even an object).
 ## ✅ Syntax:
 ```js
