@@ -283,6 +283,9 @@ console.log(firstOdd);  // 5
 ## 🚀findIndex() =>
 ### The findIndex() method returns the index of the first element in an array that satisfies a given condition.
 ### 👉 If no element matches, it returns -1 instead of undefined (like find() does).
+
+#### find() returns the first matching element, while findIndex() returns the index of the first matching element. If no match is found, find() returns undefined and findIndex() returns -1.
+
 ## ✅ Syntax:
 ```js
 array.findIndex(callback(currentValue, index, array))
