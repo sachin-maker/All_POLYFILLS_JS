@@ -680,6 +680,12 @@ console.log(numbers);                // Output: [1, 10, 20, 4, 5]
 
 #  Function PolyFills:-
 
+### JavaScript offers call(), apply(), and bind() to control the value of this inside functions. These methods are useful for managing function context, especially in object-oriented scenarios.
+
+### call(), apply(), and bind() change the this context of a function.
+### Commonly used when sharing functions between objects.
+### Polyfill provide modern features in older environments by recreating missing functionality.
+
 ## 🚀Call()=>
 * #### The call method is basically used to invoke the function with different this object.
 * #### In JavaScript, this refers to an object. It depends on how we are calling a particular function.
