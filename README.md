@@ -686,6 +686,11 @@ console.log(numbers);                // Output: [1, 10, 20, 4, 5]
 ### Commonly used when sharing functions between objects.
 ### Polyfill provide modern features in older environments by recreating missing functionality.
 
+### Very simple difference
+#### call() → invokes the function immediately, arguments passed one by one.
+#### apply() → invokes the function immediately, arguments passed as an array.
+#### bind() → does not invoke immediately; it returns a new function with this fixed.
+
 ## 🚀Call()=>
 * #### The call method is basically used to invoke the function with different this object.
 * #### In JavaScript, this refers to an object. It depends on how we are calling a particular function.
